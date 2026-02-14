@@ -1,0 +1,182 @@
+🚀 Desk Utilization + Productivity Optimizer — Full Project Blueprint
+🎯 Project Goal
+Build a system that:
+
+Lets employees book desks (hot‑desking)
+Tracks real-time and historical desk usage
+Analyzes productivity patterns
+Optimizes seating for collaboration & focus
+Supports hybrid work flexibility
+
+You can use this personally OR deploy it in a small pilot environment.
+
+🧩 System Architecture Overview
+🟦 1. Power Apps
+A single app with:
+
+Desk Booking Screen
+Seating Map (visual)
+User Productivity Dashboard
+Recommendations (AI-based)
+
+🟩 2. SharePoint Lists
+You’ll need 4 lists:
+
+📄 SharePoint List 1 — DesksList
+Stores all desks.
+Columns:
+
+DeskID (Text)
+Location (Text)
+Floor (Text)
+NearTeamArea (Yes/No)
+IsAvailable (Yes/No)
+Category (Quiet / Collaboration / Window / Standard)
+
+
+📄 SharePoint List 2 — DeskBookings
+Stores bookings.
+Columns:
+
+BookingID
+User
+DeskID (Lookup to DesksList)
+Date
+StartTime
+EndTime
+Purpose (Focus / Meeting / Collaboration)
+CheckInTime
+CheckOutTime
+
+
+📄 SharePoint List 3 — ProductivityLog
+Stores employee self-input.
+Columns:
+
+User
+Date
+FocusHours
+MeetingsHours
+TasksCompleted
+EnergyLevel (1–5)
+Notes
+
+
+📄 SharePoint List 4 — Recommendations
+Stores AI recommendations.
+Columns:
+
+User
+Date
+SuggestedDesks
+RecommendedFocusTime
+CollaborationSuggestions
+Summary
+
+
+📱 Power Apps Components
+✔ Screen 1 — Desk Booking
+
+Calendar to pick date
+Gallery of available desks
+Filter by: Floor | Quiet Zone | Window | Near Team
+“Book Desk” button
+
+When selected:
+
+Creates a new item in DeskBookings
+Sends Teams confirmation
+
+
+✔ Screen 2 — Seating Map
+Upload a diagram image of the floor plan.
+Overlay buttons on it:
+Plain Textpowerapps isn’t fully supported. Syntax highlighting is based on Plain Text.Icons placed over the map with Visible = If(IsAvailable, true, false)Show more lines
+Color coding:
+
+Green → Available
+Red → Booked
+Yellow → Booked but not checked in
+
+
+✔ Screen 3 — Productivity Self Entry
+A simple 30-second daily input:
+
+Focus hours (slider)
+Meetings hours (auto-filled from calendar)
+Tasks completed
+Energy level
+Notes
+
+Click “Save” → Writes to ProductivityLog.
+
+✔ Screen 4 — Insights + AI Recommendations
+Shows:
+
+Today’s focus score
+Desk suitability score
+Productivity trend
+Button: Generate Suggestions
+
+Button triggers AI flow (optional).
+
+🔄 Power Automate Flows
+🔁 Flow 1 — Meeting Hours Auto Capture
+Runs daily:
+
+Reads Outlook events
+Updates ProductivityLog → MeetingsHours
+
+🔁 Flow 2 — Check-in Reminder
+1 hour after desk booking:
+
+Send Teams message: “Did you check in?”
+
+If no check-in → desk becomes available.
+🔁 Flow 3 — AI Suggestion Engine (Optional)
+Input:
+
+User task load
+Productivity patterns
+Preferred desk type
+Past seating locations
+Meeting schedule
+
+AI Output example:
+You have 3 hours of deep work tomorrow.
+Recommended desk: D-014 (Quiet Zone).
+Avoid desks near collaboration area.
+Ideal focus time: 10 AM – 12 PM.
+
+Save the result to Recommendations list.
+🔁 Flow 4 — Weekly Workspace Utilization Report
+Runs Friday:
+
+Total seats booked
+No-shows
+Peak hours
+Quiet zone demand
+
+Sent via email or Teams.
+
+📊 Power BI Dashboards
+Dashboard A — Desk Utilization
+
+Heatmap of desk usage
+Trend: bookings vs no-shows
+Usage by desk type (Quiet/Window/Collab)
+Peak hour occupancy
+Floor-wise usage
+
+Dashboard B — Productivity Insights
+
+Focus Hours trend
+Meeting overload chart
+Focus vs Meetings correlation
+Personal productivity score
+
+Dashboard C — Optimization Suggestions
+
+Best seat for collaboration
+Best seat for deep work
+Match desk type with productivity
